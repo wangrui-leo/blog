@@ -16,13 +16,14 @@ router.get('/signin',function (req,res) {
     res.render('user/signin',{title:'用户登录'});
 });
 router.get('/signout',function (req,res) {
+    req.session.user=null;
     res.redirect('/');
 });
 
 
 router.post('/signup',upload.single('avatar'),function(req,res){
     var user = req.body;//{username,password,email}
-    user.avatar =  '/uploads/'+req.file.filename;
+    user.avatar =  '/upload/'+req.file.filename;
     User.create(user,function(err,doc){
         if(err){
             //req.session.error = '注册失败'
@@ -42,9 +43,14 @@ router.post('/signin',function (req,res) {
             req.flash('error','用户名或密码错误');
             res.redirect('back');
         }else{
-            req.flash('success','用户登录成功');
-            res.session.user=doc;
-            res.redirect('/');
+           if(doc){
+               req.flash('success','用户登录成功');
+               req.session.user=doc;
+               res.redirect('/');
+           }else{
+               req.flash('error','用户名或密码错误');
+               res.redirect('back');
+           }
         }
     });
 });
