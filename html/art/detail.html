@@ -2,20 +2,18 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <% arts.forEach(function(article){%>
             <div class="panel panel-default">
                 <div class="panel-heading"><%=article.artTitle%></div>
                 <div class="panel-body">
                     <p><img class="media-object avatar " style="width: 100px;height:100px;" src="<%=article.author.avatar%>" alt="<%=article.author.author%>"></p>
-                   <p><%=article.artContent%></p>
-                   <p>作者:<%=article.author.username%>|发表时间<%=article.time.toLocaleString()%></p>
+                    <p><%=article.artContent%></p>
+                    <p>作者:<%=article.author.username%>|发表时间<%=article.time.toLocaleString()%></p>
                 </div>
                 <div class="panel-footer">
-                    <a href="/arts/delele/:<%=article.author._id%>" class="btn btn-info">删除</a>
-                    <a href="/arts/update/:<%=article.author._id%>" class="btn btn-info">修改</a>
+                    <a href="/art/delele/<%=article._id%>" class="btn btn-info">删除</a>
+                    <a href="/art/update/<%=article._id%>" class="btn btn-info">修改</a>
                 </div>
             </div>
-            <%})%>
         </div>
     </div>
 </div>

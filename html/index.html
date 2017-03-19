@@ -5,13 +5,13 @@
         <% articles.forEach(function(article){%>
         <div class="media">
             <div class="media-left">
-                <a href="/arts/detail">
+                <a href="">
                     <img class="media-object avatar " style="width: 100px;height:100px;" src="<%=article.author.avatar%>" alt="<%=article.author.author%>">
                 </a>
             </div>
             <!--50?:article.artContent-->
             <div class="media-body">
-                <h4 class="media-heading"><%=article.artTitle%></h4>
+                <h4 class="media-heading"><a href="/art/detail/<%=article._id%>"><%=article.artTitle%></a></h4>
                 <p class="text-overflow"><%=article.artContent%></p>
                 <p >作者:<%=article.author.username%>|发表时间<%=article.time.toLocaleString()%></p>
             </div>
