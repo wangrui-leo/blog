@@ -28,7 +28,7 @@ router.get('/update/:_id',function(req,res){
         if(err){
             res.redirect('back');
         }else{
-            console.log()
+            console.log(article)
             res.render('art/add',{title:'文章详情',article:article});
         }
     })
@@ -37,7 +37,8 @@ router.get('/update/:_id',function(req,res){
 
 router.get('/delete/:_id',function (req,res,next) {
     var _id=req.params._id;
-    Arts.remove(_id,function(err,doc){
+    console.log(_id)
+    Arts.remove({_id},function(err,doc){
         if(err){
             req.flash('error','删除失败');
             res.redirect('back');
@@ -62,7 +63,6 @@ router.post('/add',ware.checkMustLogin,function (req,res) {
 });
 router.post('/update/:_id',ware.checkMustLogin,function (req,res) {
     var _id=req.params._id;
-    arts.author=req.session.user._id;
     Arts.update({_id:_id},req.body,function(err,doc){
         if(err){
             req.flash('error','添加失败');
