@@ -1,13 +1,15 @@
 var express=require('express');
 
 var flash = require('connect-flash');
+
 var user=require('./routes/user');
 var art=require('./routes/art');
 var index=require('./routes/index');
 var bodyParser = require('body-parser');
 var path = require('path');
 var session = require('express-session');
-
+//将数据库保存在mongoDB数据库中
+var MongoStore = require('connect-mongo')(session);
 
 
 
@@ -21,7 +23,8 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(session({
     resave:true,//每次客户端访问服务器的时候不管有没有修改session都要重新保存session
     saveUninitialized:true,//保存未操作过的session
-    secret:'moon' //服务器往客户端发送的时候会对cookie进行加密，以后每次客户端再访问服务器的时候，服务器会校验加密,如果校验通过，那么就使用数据，如果较验不通过，则认为是被篡改过的数据
+    secret:'moon' ,//服务器往客户端发送的时候会对cookie进行加密，以后每次客户端再访问服务器的时候，服务器会校验加密,如果校验通过，那么就使用数据，如果较验不通过，则认为是被篡改过的数据
+    store:new  MongoStore({url:'mongodb://127.0.0.1/blog'})//
 }));
 //req.flash(type,msg);  设置值   req.flash(msg);  取值
 app.use(flash());

@@ -4,25 +4,22 @@ var ware=require('../ware');
 var Arts=require('../model').Arts;
 
 
-router.get('/list',function (req,res) {
-    Arts.find({},function (err,doc) {
-        if(err){
-            req.flash('error','用户名或密码错误');
-            res.redirect('back');
-        }else{
-            if(doc){
-                req.flash('success','用户登录成功');
-                req.session.user=doc;
-                res.redirect('/');
-            }
-        }
-    });
-    res.render('art/list.html',{title:'文章列表页面'});
-});
 router.get('/add',ware.checkMustLogin,function (req,res) {
     res.render('art/add.html',{title:'发表文章页面'});
 });
 
+router.get('/detail/:_id',function (req,res,next) {
+    var _id=req.param._id;
+    Arts.findById(_id,function(err,doc){
+        if(err){
+            req.flash('error',err);
+            res.redirect('back');
+        }else{
+            res.render('/arts/detail',{arts:doc});
+        }
+    });
+    res.render('art/add.html',{title:'发表文章页面'});
+});
 router.post('/add',ware.checkMustLogin,function (req,res) {
     var arts = req.body;//{username,password,email}
     arts.author=req.session.user._id;
