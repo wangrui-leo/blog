@@ -1,6 +1,6 @@
 var express=require('express');
 
-
+var ware=require('../ware');
 var multer = require('multer');
 //指定上传的目录
 var upload = multer({dest:'public/upload'});
@@ -9,13 +9,13 @@ var path=require('path');
 var router=express.Router();
 var User=require('../model').User;
 
-router.get('/signup',function(req,res){
+router.get('/signup',ware.checkNotLogin,function(req,res){
     res.render('user/signup.html',{title:'用户注册'})//取出之后全部销毁
 });
-router.get('/signin',function (req,res) {
+router.get('/signin',ware.checkNotLogin,function (req,res) {
     res.render('user/signin',{title:'用户登录'});
 });
-router.get('/signout',function (req,res) {
+router.get('/signout',ware.checkMustLogin,function (req,res) {
     req.session.user=null;
     res.redirect('/');
 });

@@ -1,5 +1,6 @@
 var express=require('express');
 var router=express.Router();
+var ware=require('../ware');
 var Arts=require('../model').Arts;
 
 
@@ -18,11 +19,11 @@ router.get('/list',function (req,res) {
     });
     res.render('art/list.html',{title:'文章列表页面'});
 });
-router.get('/add',function (req,res) {
+router.get('/add',ware.checkMustLogin,function (req,res) {
     res.render('art/add.html',{title:'发表文章页面'});
 });
 
-router.post('/add',function (req,res) {
+router.post('/add',ware.checkMustLogin,function (req,res) {
     var arts = req.body;//{username,password,email}
     arts.author=req.session.user._id;
     Arts.create(arts,function(err,doc){
